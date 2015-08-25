@@ -50,5 +50,5 @@ if __name__ == '__main__':
     result = process()
     print "result"
     for item in result:
-        print item.meanValue
+        print item.getNum()
 
