@@ -1,7 +1,8 @@
 __author__ = 'Administrator'
+# _*_ coding: utf-8 _*_
 __metaclass__ = type
 import numpy as np
-# -*- coding: utf-8 -*-
+
 
 class Center:
     def __init__(self, data, index):
