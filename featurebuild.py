@@ -33,13 +33,13 @@ try:
             continue
         feature = [None] * 8
         feature[0], feature[1], feature[2] = train_table[items[0]] if items[0] in train_table else train_table['default']
-        feature[3] = 0
+        feature[3] = 1
         feature[4] = 1 if u'@' in items[-1] else 0
         feature[5] = 1 if u'#' in items[-1] else 0
         feature[6] = 1 if u'http:' in items[-1] else 0
         feature[7] = 1 if u'转发' in items[-1] else 0
         try:
-            toWrite = items[0] + '\t' + items[1] + '\t' + str(feature) + '\n'
+            toWrite = items[0] + '\t' + items[1] + '\t' + items[2] + '\t' + items[3] + '\t' + items[4] + '\t' + items[5] + '\t' + str(feature) + '\n'
             fw1.write(toWrite)
         except IndexError:
             continue
@@ -52,13 +52,13 @@ try:
             continue
         feature = [None] * 8
         feature[0], feature[1], feature[2] = train_table[items[0]] if items[0] in train_table else train_table['default']
-        feature[3] = 0
+        feature[3] = 1
         feature[4] = 1 if u'@' in items[-1] else 0
         feature[5] = 1 if u'#' in items[-1] else 0
         feature[6] = 1 if u'http:' in items[-1] else 0
         feature[7] = 1 if u'转发' in items[-1] else 0
         try:
-            toWrite = items[0] + '\t' + items[1] + '\t' + str(feature) + '\n'
+            toWrite = items[0] + '\t' + items[1] + '\t' + items[2] + '\t' + str(feature) + '\n'
             fw2.write(toWrite)
         except IndexError:
             continue
