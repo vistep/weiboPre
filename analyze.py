@@ -80,8 +80,8 @@ print forwardArray[forwardArray > 10000].mean()
 #         print toWrite
 #         fw.write(toWrite)
 # finally:
-#     if not fr:
+#     if fr:
 #         fr.close()
-#     if not fw:
+#     if fw:
 #         fw.close()
 

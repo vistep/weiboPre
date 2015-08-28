@@ -33,16 +33,16 @@ for name in ['forward', 'comment', 'like']:
             fw2X.write(x + '\n')
             fw2Y.write(y + '\n')
     finally:
-        if not fr1:
+        if fr1:
             fr1.close()
-        if not fr2:
+        if fr2:
             fr2.close()
-        if not fw1X:
+        if fw1X:
             fw1X.close()
-        if not fw1Y:
+        if fw1Y:
             fw1Y.close()
-        if not fw2X:
+        if fw2X:
             fw2X.close()
-        if not fw2Y:
+        if fw2Y:
             fw2Y.close()
 

@@ -63,9 +63,9 @@ try:
         except IndexError:
             continue
 finally:
-    if not fw1:
+    if fw1:
         fw1.close()
-    if not fw2:
+    if fw2:
         fw2.close()
 
 

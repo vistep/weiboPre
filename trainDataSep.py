@@ -37,15 +37,15 @@ try:
             like2 = items[0] + '\t' + items[1] + '\t' + items[2] + '\t' + items[5] + '\t' + items[-1]
             fw_like2.write(like2)
 finally:
-    if not fw_forward1:
+    if fw_forward1:
         fw_forward1.close()
-    if not fw_forward2:
+    if fw_forward2:
         fw_forward2.close()
-    if not fw_comment1:
+    if fw_comment1:
         fw_comment1.close()
-    if not fw_comment2:
+    if fw_comment2:
         fw_comment2.close()
-    if not fw_like1:
+    if fw_like1:
         fw_like1.close()
-    if not fw_like2:
+    if fw_like2:
         fw_like2.close()
