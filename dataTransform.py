@@ -12,18 +12,21 @@ def transform(parseArr):
     return arr
 
 
-fr = codecs.open('./data/word2vec.txt', mode='r', encoding='utf-8')
-fw = codecs.open('./data/wordVector.txt', mode='w', encoding='utf-8')
+fr = codecs.open('./data/word2vecsample.txt', mode='r', encoding='utf-8')
+fw = codecs.open('./data/wordVectorsample.txt', mode='w', encoding='utf-8')
 try:
     while True:
         text = fr.readline()
         if not text:
             break
+        if text == u'\r\n':
+            continue
         items = text.split('\t')
-        if len(items[1]) < 2:
+        if len(items[1]) < 3:
             fw.write(text)
             continue
         parse = np.fromstring(items[1], dtype=int, sep=' ')
+        print len(items[1])
         arr1000 = transform(parse)
         fw.write(items[0] + '\t' + str(arr1000)[1:-1] + '\n')
 finally:

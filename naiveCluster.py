@@ -18,6 +18,12 @@ class Center:
         self.num += 1
         self.meanValue = self.sumArr / self.num
 
+    def merge(self, center2):
+        self.sumArr += center2.sumArr
+        self.indexLst += center2.indexLst
+        self.num += center2.num
+        self.meanValue = self.sumArr / self.num
+
 
 def loadData():
     # every row contains one sample
@@ -49,12 +55,13 @@ def distance(data1, data2):
 #     return centerLst
 
 def process(filename):
-    limit = 0.2  # ## need to be modified
+    limit = 0.28  # ## need to be modified
     fr = codecs.open(filename, mode='r', encoding='utf-8')
     centerLst = []
     text = fr.readline()
     items = text.split('\t')
-    centerLst.append(Center(np.fromstring(items[1][0:-1], dtype=int, sep=', '), items[0]))
+    xdata = np.fromstring(items[1][0:-1], dtype=float, sep=', ')
+    centerLst.append(Center(xdata, items[0]))
     while True:
         text = fr.readline()
         if not text:
@@ -62,21 +69,45 @@ def process(filename):
         items = text.split('\t')
         if len(items[1]) < 2:
             continue
+        xdata = np.fromstring(items[1][0:-1], dtype=float, sep=', ')
+        print items[0]
         dis = np.zeros((len(centerLst)))
         for i in range(0, len(centerLst)):
-            dis[i] = distance(centerLst[i].meanValue, np.fromstring(items[1][0:-1], dtype=int, sep=', '))
+            dis[i] = distance(centerLst[i].meanValue, xdata)
         mindis = dis.min()
+        # print mindis
         if mindis < limit:
             index = np.argmin(dis)
-            centerLst[index].add(np.fromstring(items[1][0:-1], dtype=int, sep=', '), items[0])
+            centerLst[index].add(xdata, items[0])
         else:
-            centerLst.append(Center(np.fromstring(items[1][0:-1], dtype=int, sep=', '), items[0]))
+            centerLst.append(Center(xdata, items[0]))
     fr.close()
     return centerLst
 
+def mergelist(centerlist1, centerlist2):
+    threshold = 0.14
+    for center2 in centerlist2:
+        dis = np.zeros((len(centerlist1)))
+        for i in range(0, len(centerlist1)):
+            dis[i] = distance(centerlist1[i].meanValue, center2.meanValue)
+        mindis = dis.min()
+        if mindis < threshold:
+            index = np.argmin(dis)
+            centerlist1[index].merge(center2)
+        else:
+            centerlist1.append(center2)
+    return centerlist1
+
 if __name__ == '__main__':
-    filename = './data/wordVector.txt'
-    resultLst = process(filename)
+    # filename = './data/wordVectorSample1.txt'
+    # resultLst = process(filename)
+    filename = ['./data/wordVectorSample1.txt', './data/wordVectorSample2.txt', './data/wordVectorSample3.txt',
+                './data/wordVectorSample4.txt', './data/wordVectorSample5.txt', './data/wordVectorSample6.txt',
+                './data/wordVectorSample7.txt', './data/wordVectorSample8.txt']
+    resultLst = map(process, filename)
+    print "merging..."
+    resultLst = reduce(mergelist, resultLst)
+    print "count..."
     table = {}
     for center in resultLst:
         for index in center.indexLst:
@@ -87,5 +118,6 @@ if __name__ == '__main__':
             fw.write(str(i) + '\t' + str(table[str(i)]) + '\n')
         else:
             fw.write(str(i) + '\t' + str(1) + '\n')
+    print "done"
 
 
